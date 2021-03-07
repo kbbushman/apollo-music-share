@@ -9,6 +9,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { PlayArrow, Save } from "@material-ui/icons";
+import { useQuery } from "@apollo/client";
+import { GET_SONGS } from "../graphql/queries";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,13 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SongList() {
-  let loading = false;
-
-  const song = {
-    title: 'Santaria',
-    artist: 'Submlime',
-    thumbnail: 'https://www.udiscovermusic.com/wp-content/uploads/2019/07/Sublime-self-titled-third-album-cover-820.jpg'
-  }
+  const { data, loading, error } = useQuery(GET_SONGS);
 
   if (loading) {
     return (
@@ -52,10 +48,12 @@ function SongList() {
     );
   }
 
+  if (error) return <div>Error fetching songs</div>
+
   return (
     <div>
-      {Array.from({length: 10}, () => song).map((song, i) => (
-        <Song key={i} song={song} />
+      {data.songs.map((song) => (
+        <Song key={song.id} song={song} />
       ))}
     </div>
   );
