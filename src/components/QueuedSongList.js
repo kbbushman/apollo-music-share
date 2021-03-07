@@ -1,4 +1,10 @@
-import { Avatar, IconButton, Typography, makeStyles } from "@material-ui/core";
+import {
+  Avatar,
+  IconButton,
+  Typography,
+  makeStyles,
+  useMediaQuery,
+} from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 
 const useStyles = makeStyles({
@@ -25,13 +31,15 @@ const useStyles = makeStyles({
 });
 
 function QueuedSongList() {
+  const greaterThanMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
+
   const song = {
     title: 'Santaria',
     artist: 'Submlime',
     thumbnail: 'https://www.udiscovermusic.com/wp-content/uploads/2019/07/Sublime-self-titled-third-album-cover-820.jpg'
   };
 
-  return (
+  return greaterThanMd && (
     <div style={{ margin: '10px 0' }}>
       <Typography color='textSecondary' variant='button'>
         QUEUE (5)
