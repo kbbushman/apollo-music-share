@@ -13,6 +13,8 @@ import { AddBoxOutlined, Link } from "@material-ui/icons";
 import ReactPlayer from 'react-player';
 import SoundcloudPlayer from 'react-player/lib/players/SoundCloud';
 import YoutubePlayer from 'react-player/lib/players/YouTube';
+import { useMutation } from '@apollo/client';
+import { ADD_SONG } from '../graphql/mutations';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,17 +35,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const DEFAULT_SONG = {
+  duration: 0,
+  title: '',
+  artist: '',
+  thumbnail: '',
+};
+
 function AddSong() {
   const classes = useStyles();
+  const [addSong] = useMutation(ADD_SONG);
   const [url, setUrl] = React.useState('');
   const [playable, setPlayable] = React.useState(false);
   const [dialog, setDialog] = React.useState(false);
-  const [song, setSong] = React.useState({
-    duration: 0,
-    title: '',
-    artist: '',
-    thumbnail: '',
-  });
+  const [song, setSong] = React.useState(DEFAULT_SONG);
 
   React.useEffect(() => {
     const isPlayable = SoundcloudPlayer.canPlay(url) || YoutubePlayer.canPlay(url);
@@ -71,6 +76,26 @@ function AddSong() {
       songData = await getSoundcloudInfo(nestedPlayer);
     }
     setSong({ ...songData, url });
+  }
+
+  async function handleAddSong() {
+    try {
+      const { title, artist, thumbnail, url, duration } = song;
+      await addSong({
+        variables: {
+          title: title.length > 0 ? title : null,
+          artist: artist.length > 0 ? artist : null,
+          thumbnail: thumbnail.length > 0 ? thumbnail : null,
+          url: url.length > 0 ? url : null,
+          duration: duration > 0 ? duration : null,
+        }
+      });
+      handleCloseDialog();
+      setSong(DEFAULT_SONG);
+      setUrl('');
+    } catch (err) {
+      console.error('Error adding song', err);
+    }
   }
 
   function getYoutubeInfo(player) {
@@ -143,7 +168,9 @@ function AddSong() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color='secondary'>Cancel</Button>
-          <Button variant='outlined' color='primary'>Add Song</Button>
+          <Button variant='outlined' color='primary' onClick={handleAddSong}>
+            Add Song
+          </Button>
         </DialogActions>
       </Dialog>
       <TextField
