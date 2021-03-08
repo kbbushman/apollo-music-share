@@ -44,7 +44,7 @@ const DEFAULT_SONG = {
 
 function AddSong() {
   const classes = useStyles();
-  const [addSong] = useMutation(ADD_SONG);
+  const [addSong, { error }] = useMutation(ADD_SONG);
   const [url, setUrl] = React.useState('');
   const [playable, setPlayable] = React.useState(false);
   const [dialog, setDialog] = React.useState(false);
@@ -125,6 +125,10 @@ function AddSong() {
     })
   }
 
+  function handleError(field) {
+    return error?.graphQLErrors[0]?.extensions?.path.includes(field);
+  }
+
   const { title, artist, thumbnail } = song;
 
   return (
@@ -147,6 +151,8 @@ function AddSong() {
             label='Title'
             value={title}
             onChange={handleChangeSong}
+            error={handleError('title')}
+            helperText={handleError('title') && 'Fill out field'}
             fullWidth
           />
           <TextField
@@ -155,6 +161,8 @@ function AddSong() {
             label='Artist'
             value={artist}
             onChange={handleChangeSong}
+            error={handleError('artist')}
+            helperText={handleError('artist') && 'Fill out field'}
             fullWidth
           />
           <TextField
@@ -163,6 +171,8 @@ function AddSong() {
             label='Thumbnail'
             value={thumbnail}
             onChange={handleChangeSong}
+            error={handleError('thumbnail')}
+            helperText={handleError('thumbnail') && 'Fill out field'}
             fullWidth
           />
         </DialogContent>
