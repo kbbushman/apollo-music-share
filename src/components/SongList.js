@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { PlayArrow, Save } from "@material-ui/icons";
 import { useQuery } from "@apollo/client";
-import { GET_SONGS } from "../graphql/queries";
+import { GET_SONGS } from "../graphql/subscriptions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
