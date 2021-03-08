@@ -1,14 +1,14 @@
-import { gql } from 'apollo-boost';
+// import { gql } from 'apollo-boost';
 
-export const GET_SONGS = gql`
-  query getSongs {
-    songs(order_by: {created_at: desc}) {
-      artist
-      id
-      title
-      thumbnail
-      url
-      duration
-    }
-  }
-`
+// export const GET_SONGS = gql`
+//   query getSongs {
+//     songs(order_by: {created_at: desc}) {
+//       artist
+//       id
+//       title
+//       thumbnail
+//       url
+//       duration
+//     }
+//   }
+// `
