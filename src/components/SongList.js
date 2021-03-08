@@ -9,7 +9,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { PlayArrow, Save } from "@material-ui/icons";
-import { useQuery } from "@apollo/client";
+import { useSubscription } from "@apollo/client";
 import { GET_SONGS } from "../graphql/subscriptions";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SongList() {
-  const { data, loading, error } = useQuery(GET_SONGS);
+  const { data, loading, error } = useSubscription(GET_SONGS);
 
   if (loading) {
     return (
