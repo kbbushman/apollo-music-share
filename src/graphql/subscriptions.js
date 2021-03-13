@@ -1,11 +1,11 @@
 import { gql } from 'apollo-boost';
 
 export const GET_SONGS = gql`
-  subscription getSongs {
-    songs(order_by: {created_at: desc}) {
-      artist
+  subscription songs {
+    songs {
       id
       title
+      artist
       thumbnail
       url
       duration
