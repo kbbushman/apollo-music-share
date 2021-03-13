@@ -1,6 +1,7 @@
 import ApolloClient from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { gql } from '@apollo/client';
 // import ApolloClient from 'apollo-boost';
 
 const client = new ApolloClient({
@@ -47,7 +48,7 @@ const data = {
 
 // For Managing Song Queue in LocalStorage
 // Uses typeDefs set on client
-client.writeData(data);
+client.writeData({ data });
 
 // const client = new ApolloClient({
 //   uri: 'https://apollo-music-share-api.herokuapp.com/graphql',
