@@ -8,6 +8,7 @@ import songReducer from './reducer';
 
 export const SongContext = React.createContext({
   song: {
+    id: '4',
     title: 'Seven Nation Army',
     artist: 'The White Stripes',
     thumbnail: 'http://img.youtube.com/vi/0J2QdDbelmY/0.jpg',
