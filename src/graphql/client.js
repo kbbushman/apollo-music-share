@@ -5,7 +5,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const client = new ApolloClient({
   link: new WebSocketLink({
-    uri: 'wss://apollo-music-database.herokuapp.com/v1/graphql',
+    // uri: 'ws://localhost:4000/graphql',
+    uri: 'ws://apollo-music-share-api.herokuapp.com/graphql',
     options: {
       reconnect: true,
     }
@@ -14,7 +15,7 @@ const client = new ApolloClient({
 });
 
 // const client = new ApolloClient({
-//   uri: 'https://apollo-music-database.herokuapp.com/v1/graphql',
+//   uri: 'https://apollo-music-share-api.herokuapp.com/graphql',
 // });
 
 export default client;
