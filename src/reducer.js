@@ -5,6 +5,11 @@ function songReducer(state, action) {
         ...state,
         isPlaying: true,
       };
+    case 'PAUSE_SONG':
+      return {
+        ...state,
+        isPlaying: false,
+      };
     default:
       return state;
   }
