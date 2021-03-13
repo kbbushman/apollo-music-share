@@ -1,14 +1,17 @@
-// import { gql } from 'apollo-boost';
+import { gql } from 'apollo-boost';
 
-// export const GET_SONGS = gql`
-//   query getSongs {
-//     songs(order_by: {created_at: desc}) {
-//       artist
-//       id
-//       title
-//       thumbnail
-//       url
-//       duration
-//     }
-//   }
-// `
+// Client decoractor performs query on client, not server
+// This query is set on the client in typeDefs
+
+export const GET_QUEUED_SONGS = gql`
+  query getQueuedSongs {
+    queue @client {
+      id
+      title
+      artist
+      thumbnail
+      url
+      duarion
+    }
+  }
+`;
