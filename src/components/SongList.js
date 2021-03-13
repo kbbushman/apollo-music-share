@@ -64,13 +64,18 @@ function SongList() {
 function Song({ song }) {
   const { id, title, artist, thumbnail } = song;
   const classes = useStyles();
-  const { state } = React.useContext(SongContext);
+  const { state, dispatch } = React.useContext(SongContext);
   const [currentSongPlaying, setCurrentSongPlaying] = React.useState(false);
 
   React.useEffect(() => {
     const isSongPlaying = state.isPlaying && id === state.song.id;
     setCurrentSongPlaying(isSongPlaying);
   }, [id, state.song.id, state.isPlaying]);
+
+  function handleTogglePlay() {
+    dispatch({ type: 'SET_SONG', payload: { song } });
+    dispatch(state.isPlaying ? { type: 'PAUSE_SONG' } : { type: 'PLAY_SONG' });
+  }
 
   return (
     <Card className={classes.container}>
@@ -86,7 +91,7 @@ function Song({ song }) {
             </Typography>
           </CardContent>
           <CardActions>
-            <IconButton size='small' color='primary'>
+            <IconButton size='small' color='primary' onClick={handleTogglePlay}>
               {currentSongPlaying ? <Pause /> : <PlayArrow />}
             </IconButton>
             <IconButton size='small' color='secondary'>
