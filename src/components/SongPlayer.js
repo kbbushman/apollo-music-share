@@ -11,6 +11,8 @@ import {
 import { Pause, PlayArrow, SkipNext, SkipPrevious } from '@material-ui/icons';
 import { SongContext } from '../App';
 import QueuedSongList from './QueuedSongList';
+import { useQuery } from '@apollo/client';
+import { GET_QUEUED_SONGS } from '../graphql/queries';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SongPlayer() {
+  const { data } = useQuery(GET_QUEUED_SONGS);
   const { state, dispatch } = React.useContext(SongContext);
   const classes = useStyles();
 
@@ -81,7 +84,7 @@ function SongPlayer() {
           image={state.song.thumbnail}
         />
       </Card>
-      <QueuedSongList />
+      <QueuedSongList queue={data.queue} />
     </>
   );
 }
