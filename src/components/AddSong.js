@@ -83,11 +83,13 @@ function AddSong() {
       const { title, artist, thumbnail, url, duration } = song;
       await addSong({
         variables: {
-          title: title.length > 0 ? title : null,
-          artist: artist.length > 0 ? artist : null,
-          thumbnail: thumbnail.length > 0 ? thumbnail : null,
-          url: url.length > 0 ? url : null,
-          duration: duration > 0 ? duration : null,
+          songInput: {
+            title: title.length > 0 ? title : null,
+            artist: artist.length > 0 ? artist : null,
+            thumbnail: thumbnail.length > 0 ? thumbnail : null,
+            url: url.length > 0 ? url : null,
+            duration: duration > 0 ? duration : null,
+          }
         }
       });
       handleCloseDialog();
@@ -126,7 +128,11 @@ function AddSong() {
   }
 
   function handleError(field) {
-    return error?.graphQLErrors[0]?.extensions?.path.includes(field);
+    // return error?.graphQLErrors[0]?.extensions?.path?.includes(field);
+    const includesError = error?.graphQLErrors[0]?.message?.includes(`Argument ${field}:`)
+      || error?.graphQLErrors[0]?.message?.includes(`songInput.${field}`);
+
+    return includesError;
   }
 
   const { title, artist, thumbnail } = song;
