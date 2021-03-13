@@ -8,7 +8,7 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import { PlayArrow, SkipNext, SkipPrevious } from '@material-ui/icons';
+import { Pause, PlayArrow, SkipNext, SkipPrevious } from '@material-ui/icons';
 import { SongContext } from '../App';
 import QueuedSongList from './QueuedSongList';
 
@@ -41,8 +41,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SongPlayer() {
-  const { state } = React.useContext(SongContext);
+  const { state, dispatch } = React.useContext(SongContext);
   const classes = useStyles();
+
+  function handleTogglePlay() {
+    dispatch(state.isPlaying ? { type: 'PAUSE_SONG' } : { type: 'PLAY_SONG' });
+  }
+
   return (
     <>
       <Card variant='outlined' className={classes.container}>
@@ -59,8 +64,8 @@ function SongPlayer() {
             <IconButton>
               <SkipPrevious />
             </IconButton>
-            <IconButton>
-              <PlayArrow className={classes.playIcon} />
+            <IconButton onClick={handleTogglePlay}>
+              {state.isPlaying ? <Pause className={classes.playIcon} /> : <PlayArrow className={classes.playIcon} />}
             </IconButton>
             <IconButton>
               <SkipNext />
