@@ -62,15 +62,17 @@ const client = new ApolloClient({
 
           return newQueue;
         }
-        
+
         return [];
       },
     },
   },
 });
 
+const hasQueue = Boolean(localStorage.getItem('queue'));
+
 const data = {
-  queue: []
+  queue: hasQueue ? JSON.parse(localStorage.getItem('queue')) : [],
 };
 
 // For Managing Song Queue in LocalStorage
