@@ -11,7 +11,7 @@ export const GET_QUEUED_SONGS = gql`
       artist
       thumbnail
       url
-      duarion
+      duration
     }
   }
 `;
