@@ -50,7 +50,21 @@ function SongPlayer() {
   const [played, setPlayed] = React.useState(0);
   const [playedSeconds, setPlayedSeconds] = React.useState(0);
   const [seeking, setSeeking] = React.useState(false);
+  const [positionInQueue, setPositionInQueue] = React.useState(0);
   const classes = useStyles();
+
+  React.useEffect(() => {
+    const songIndex = data.queue.findIndex((song) => song.id === state.song.id);
+    setPositionInQueue(songIndex);
+  }, [data.queue, state.song.id]);
+
+  React.useEffect(() => {
+    const nextSong = data.queue[positionInQueue + 1];
+    if (played >= 0.99 && nextSong) {
+      setPlayed(0);
+      dispatch({ type: 'SET_SONG', payload: { song: nextSong } });
+    }
+  }, [data.queue, played, dispatch, positionInQueue]);
 
   function handleTogglePlay() {
     dispatch(state.isPlaying ? { type: 'PAUSE_SONG' } : { type: 'PLAY_SONG' });
@@ -73,6 +87,20 @@ function SongPlayer() {
     return new Date(seconds * 1000).toISOString().substr(11, 8);
   }
 
+  function handlePlayNextSong() {
+    const nextSong = data.queue[positionInQueue + 1];
+    if (nextSong) {
+      dispatch({ type: 'SET_SONG', payload: { song: nextSong } });
+    }
+  }
+
+  function handlePlayPrevSong() {
+    const prevSong = data.queue[positionInQueue - 1];
+    if (prevSong) {
+      dispatch({ type: 'SET_SONG', payload: { song: prevSong } });
+    }
+  }
+
   return (
     <>
       <Card variant='outlined' className={classes.container}>
@@ -86,13 +114,13 @@ function SongPlayer() {
             </Typography>
           </CardContent>
           <div className={classes.controls}>
-            <IconButton>
+            <IconButton onClick={handlePlayPrevSong}>
               <SkipPrevious />
             </IconButton>
             <IconButton onClick={handleTogglePlay}>
               {state.isPlaying ? <Pause className={classes.playIcon} /> : <PlayArrow className={classes.playIcon} />}
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handlePlayNextSong}>
               <SkipNext />
             </IconButton>
             <Typography variant='subtitle1' component='p' color='textSecondary'>
