@@ -68,7 +68,6 @@ function Song({ song }) {
   const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE, {
     onCompleted: (data) => {
       localStorage.setItem('queue', JSON.stringify(data.addOrRemoveFromQueue));
-      console.log('Data stored')
     }
   });
   const { state, dispatch } = React.useContext(SongContext);
