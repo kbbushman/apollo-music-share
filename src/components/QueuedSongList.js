@@ -30,21 +30,15 @@ const useStyles = makeStyles({
   },
 });
 
-function QueuedSongList() {
+function QueuedSongList({ queue }) {
   const greaterThanMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
-
-  const song = {
-    title: 'Santaria',
-    artist: 'Submlime',
-    thumbnail: 'https://www.udiscovermusic.com/wp-content/uploads/2019/07/Sublime-self-titled-third-album-cover-820.jpg'
-  };
 
   return greaterThanMd && (
     <div style={{ margin: '10px 0' }}>
       <Typography color='textSecondary' variant='button'>
-        QUEUE (5)
+        QUEUE ({queue.length})
       </Typography>
-      {Array.from({length: 10}, () => song).map((song, i) => (
+      {queue.map((song, i) => (
         <QueuedSong key={i} song={song} />
       ))}
     </div>
