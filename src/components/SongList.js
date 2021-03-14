@@ -65,7 +65,12 @@ function SongList() {
 function Song({ song }) {
   const { id, title, artist, thumbnail } = song;
   const classes = useStyles();
-  const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE);
+  const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE, {
+    onCompleted: (data) => {
+      localStorage.setItem('queue', JSON.stringify(data.addOrRemoveFromQueue));
+      console.log('Data stored')
+    }
+  });
   const { state, dispatch } = React.useContext(SongContext);
   const [currentSongPlaying, setCurrentSongPlaying] = React.useState(false);
 
