@@ -2,8 +2,7 @@
 
 ### Technologies Used:
 
-- Hasura
-- GraphQL
-- Apollo
 - React
+- Apollo Client
 - Material UI
+- React Player
